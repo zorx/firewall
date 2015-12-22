@@ -252,14 +252,8 @@ class Firewall implements FirewallInterface {
 
 	private function readFile($file)
 	{
-		if ($this->fileSystem->exists($file))
-		{
-			$lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-			return $this->makeArrayOfIps($lines);
-		}
-
-		return array();
+		$lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		return $this->makeArrayOfIps($lines);
 	}
 
 	private function toCollection($array)
@@ -296,12 +290,16 @@ class Firewall implements FirewallInterface {
 			return array($item);
 		}
 
+		if ($this->fileSystem->exists($item)) {
+			return $this->readFile($item);
+		}
+
 		if (IpAddress::ipV4Valid($item))
 		{
 			return array($item);
 		}
 
-		return $this->readFile($item);
+		return [];
 	}
 
 	private function ipArraySearch($ip, $ips)
