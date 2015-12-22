@@ -1,5 +1,5 @@
 {
-    "name": "pragmarx/firewall",
+    "name": "zorx/firewall",
 
     "description": "A Laravel 4.1+ IP whitelisting and blacklisting",
 
